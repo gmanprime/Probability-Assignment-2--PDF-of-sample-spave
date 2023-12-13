@@ -22,26 +22,29 @@ probability_dist <- function(outcomes, value = "H", experiments = 4) {
   counts <- list(tail(st, 1))
   vector_count <- as.numeric(unlist(counts[1][1]))
 
-  indexes <- c()
-  values <- c() # list of values and counts
-  val_counts <- c()
+  indexes <- c(0)
+  values <- c(0) # list of values and counts
+  val_counts <- c(0)
 
   for (i in 1: max(vector_count)){
-    val_counts[i] <- 0
-    # values[i] <- 0
-    indexes[i] <- i
+    i_shift <- i + 1
+    val_counts[i_shift] <- 0
+    indexes[i_shift] <- i
     for (j in seq_along(vector_count)){
       if (vector_count[j] == i) {
-        val_counts[i] <- val_counts[i] + 1
+        val_counts[i_shift] <- val_counts[i_shift] + 1
       }
     }
-    values[i] <- val_counts[i] / length(vector_count)
+    values[i_shift] <- val_counts[i_shift] / length(vector_count)
   }
+
+  val_counts[1] <- 1
+  values[1] <- 1 / length(vector_count)
 
   output <- t(data.frame(indexes, val_counts, values))
   rownames(output) <- c(
-    sprintf("%s count", value),
-    sprintf("number of '%s' ", value),
+    sprintf("%s", value),
+    sprintf("'%s' Count", value),
     sprintf("P( X = '%s' )", value)
   )
 
