@@ -36,11 +36,16 @@ probability_dist <- function(outcomes, value = "H", experiments = 4) {
   }
 
   output <- t(data.frame(indexes, values))
-  rownames(output) <- c(sprintf("P( X : '%s' )", value), "counts")
+  rownames(output) <- c(
+    sprintf("%s count", value),
+    sprintf("P( X = '%s' )", value)
+  )
 
   return(output)
 }
 
 pd_h <- probability_dist(c("H", "T"), "H", 4)
 pd_t <- probability_dist(c("H", "T"), "T", 4)
+
+# another test case
 # pmf_m <- coin_toss_pdf(c("H", "T", "M"), "M", 4)
